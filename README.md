@@ -93,7 +93,20 @@ This project aims to apply **unsupervised classification algorithms** to detect 
 6. **Results Interpretation and Visualization**  
 7. **Report Writing and Figures Preparation**
 
----
+## Project Setup - Human Activity Recognition
 
-> This Markdown provides a **professional overview** of the project. It can be used as the **top section of the notebook or README**, giving a clean, structured, and reproducible introduction for academic purposes.
+```powershell
+# Step 1: Setup virtual environment and Jupyter kernel
+.\setup\setup.ps1
+```
+```powershell
+# Step 2: Activate the virtual environment
+.\har_env\Scripts\activate
+```
+
+```powershell
+# Step 3: Install project dependencies
+pip install -r requirements.txt
+```
+
 
