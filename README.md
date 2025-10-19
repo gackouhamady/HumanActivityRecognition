@@ -22,7 +22,6 @@
 | **University**     | University Paris Cité                 |
 | **Master Program** | Machine Learning for Data Science     |
 | **Project Type**   | Human Activity Recognition (Practical Project) |
-| **Session**        | Single-Day Academic Project           |
 | **Supervisor**     | Allou Samé                             |
 | **Student**        | Hamady GACKOU                          |
 | **Academic Year**  | 2025/2026                              |
@@ -97,3 +96,4 @@ This project aims to apply **unsupervised classification algorithms** to detect 
 ---
 
 > This Markdown provides a **professional overview** of the project. It can be used as the **top section of the notebook or README**, giving a clean, structured, and reproducible introduction for academic purposes.
+
