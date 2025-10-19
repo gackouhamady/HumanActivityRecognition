@@ -93,7 +93,7 @@ This project aims to apply **unsupervised classification algorithms** to detect 
 6. **Results Interpretation and Visualization**  
 7. **Report Writing and Figures Preparation**
 
-## Project Setup - Human Activity Recognition
+## Project Setup 
 
 ```powershell
 # Step 1: Setup virtual environment and Jupyter kernel
@@ -108,5 +108,6 @@ This project aims to apply **unsupervised classification algorithms** to detect 
 # Step 3: Install project dependencies
 pip install -r requirements.txt
 ```
+
 
 
