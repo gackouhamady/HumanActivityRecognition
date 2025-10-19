@@ -1,8 +1,8 @@
 <p align="center">
   <img alt="University Paris Cité" src="https://img.shields.io/badge/University-Paris%20Cité-6f42c1?style=for-the-badge&logo=academia&logoColor=white">
-  <img alt="Module Data Engineering" src="https://img.shields.io/badge/Course-Data%20Engineering-1976D2?style=for-the-badge&logo=databricks&logoColor=white">
-  <img alt="Practical Lab" src="https://img.shields.io/badge/Type-Practical%20Lab-FF9800?style=for-the-badge&logo=jupyter&logoColor=white">
-  <img alt="Day 1" src="https://img.shields.io/badge/Session-Day%201%20of%20Course-009688?style=for-the-badge&logo=googlecalendar&logoColor=white">
+  <img alt="Master ML for Data Science" src="https://img.shields.io/badge/Master-Machine%20Learning%20for%20Data%20Science-1976D2?style=for-the-badge&logo=python&logoColor=white">
+  <img alt="Practical Project" src="https://img.shields.io/badge/Project-Practical%20Lab-FF9800?style=for-the-badge&logo=jupyter&logoColor=white">
+  <img alt="Academic Year" src="https://img.shields.io/badge/Year-2025%2F2026-009688?style=for-the-badge&logo=googlecalendar&logoColor=white">
 </p>
 
 ---
@@ -15,17 +15,17 @@
 
 <p align="center">
 
-### 📊 Course Information  
+### 📊 Project Information  
 
-| **Category**      | **Details**                          |
-|-------------------|--------------------------------------|
-| **University**    | University Paris Cité                |
-| **Teaching Unit** | Data Engineering (Practical Labs)    |
-| **Session**       | Day 1 of the course                  |
-| **Instructor**    | Amine Ferddjaoui                     |
-| **Student**       | Hamady GACKOU                        |
-| **Supervisor**    | Allou Samé                           |
-| **Academic Year** | 2025/2026                             |
+| **Category**       | **Details**                           |
+|--------------------|---------------------------------------|
+| **University**     | University Paris Cité                 |
+| **Master Program** | Machine Learning for Data Science     |
+| **Project Type**   | Human Activity Recognition (Practical Project) |
+| **Session**        | Single-Day Academic Project           |
+| **Supervisor**     | Allou Samé                             |
+| **Student**        | Hamady GACKOU                          |
+| **Academic Year**  | 2025/2026                              |
 
 </p>
 
@@ -42,79 +42,58 @@
 
 ## Project Overview
 
-**Title:** Detection of Human Activities using Smartphones  
-**Master Program:** Master 2 Machine Learning for Data Science, Université Paris Cité  
-**Student:** Hamady GACKOU  
-**Supervisor:** Allou Samé  
-**Academic Year:** 2025/2026  
-
 **Objective:**  
-The objective of this project is to apply **unsupervised classification algorithms** to identify human activities from smartphone sensor data. The activities to detect include:
-1. Walking  
-2. Climbing stairs  
-3. Descending stairs  
-4. Sitting  
-5. Standing  
-6. Lying down  
+This project aims to apply **unsupervised classification algorithms** to detect human activities from smartphone sensor data. The activities include:
+- Walking  
+- Climbing stairs  
+- Descending stairs  
+- Sitting  
+- Standing  
+- Lying down  
 
----
-
-## Data Description
-
-- Collected via smartphone sensors during a human activity experiment.  
-- **9 variables** measured every 0.02 seconds:
-  - Accelerations: `accm_x`, `accm_y`, `accm_z`
-  - Estimated accelerations (without gravity): `acce_x`, `acce_y`, `acce_z`
+**Data Description:**  
+- Collected from a smartphone during a controlled experiment.  
+- **9 sensor variables** measured every 0.02 seconds:  
+  - Accelerations: `accm_x`, `accm_y`, `accm_z`  
+  - Estimated accelerations (without gravity): `acce_x`, `acce_y`, `acce_z`  
   - Velocities: `vit_x`, `vit_y`, `vit_z`  
-- Data is divided into **temporal windows of 128 observations** (~2.5 seconds per window).  
+- Data segmented into **temporal windows** of 128 observations (~2.5 seconds).  
 - Total windows: 347  
-- True labels (`lab`) are available for evaluation purposes only.  
+- True activity labels are available **only for evaluation purposes**.
 
 ---
 
 ## Methods
 
-- **Unsupervised algorithms** applied:
-  - K-means  
-  - Hierarchical Clustering (CAH)  
-  - DBSCAN / HDBSCAN  
-  - Optional: Spectral Clustering
-- **Features extracted per window** (optional but recommended):
+- **Algorithms applied**:
+  - K-means
+  - Hierarchical Clustering (CAH)
+  - DBSCAN / HDBSCAN
+  - Optional: Spectral Clustering for non-linear separations
+
+- **Feature extraction per window** (optional but recommended):
   - Mean, variance, minimum, maximum
-  - Higher-order moments (skewness, kurtosis)
+  - Higher-order moments
   - Autoregressive coefficients
-  - Fourier coefficients  
+  - Fourier coefficients
 
----
-
-## Deliverables
-
-- A **Python notebook** containing the complete analysis.  
-- A **PDF report** (≤15 pages) summarizing methodology, results, and discussion.  
+- **Evaluation metrics**:
+  - Silhouette score
+  - Adjusted Rand Index (ARI)
+  - Cluster visualizations
 
 ---
 
 ## Project Pipeline
 
 1. **Data Loading & Exploration**  
-   Load the raw sensor data, check for missing values, and visualize initial trends.
-
 2. **Preprocessing & Feature Extraction**  
-   Standardize variables and compute features per temporal window.
-
-3. **Dimensionality Reduction (optional)**  
-   Apply PCA or t-SNE for visualization and noise reduction.
-
-4. **Unsupervised Classification**  
-   Apply K-means, CAH, DBSCAN/HDBSCAN, and optionally Spectral Clustering.
-
-5. **Evaluation & Comparison of Methods**  
-   Metrics: silhouette score, adjusted Rand index (ARI), cluster heatmaps.
-
-6. **Results Interpretation**  
-   Compare clusters with true labels (if available) and analyze patterns.
-
-7. **Report Writing**  
-   Summarize methods, results, and discussion in a clear, reproducible format.
+3. **Dimensionality Reduction (optional: PCA, t-SNE)**  
+4. **Clustering with multiple algorithms**  
+5. **Evaluation & Comparison of clusters**  
+6. **Results Interpretation and Visualization**  
+7. **Report Writing and Figures Preparation**
 
 ---
+
+> This Markdown provides a **professional overview** of the project. It can be used as the **top section of the notebook or README**, giving a clean, structured, and reproducible introduction for academic purposes.
