@@ -1,0 +1,262 @@
+% =====================================================================
+%  UNIVERSITÉ PARIS CITÉ — MASTER 2 MLDS
+%  Human Activity Recognition using Unsupervised Learning
+%  Author: Hamady GACKOU
+%  Step 5 — Discussion & Report Integration
+% =====================================================================
+
+\documentclass[12pt,a4paper]{report}
+
+% -------------------------------------------------------------
+% PACKAGES
+% -------------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french,english]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{titlesec}
+\usepackage{lmodern}
+
+% -------------------------------------------------------------
+% PAGE STYLE
+% -------------------------------------------------------------
+\geometry{top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm}
+\setstretch{1.25}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=cyan,
+    citecolor=teal
+}
+\titleformat{\chapter}[block]{\normalfont\huge\bfseries}{\thechapter.}{1em}{}
+\titleformat{\section}[block]{\normalfont\Large\bfseries}{\thesection.}{0.75em}{}
+\renewcommand{\figurename}{Figure}
+\renewcommand{\tablename}{Tableau}
+
+% -------------------------------------------------------------
+% TITLE PAGE
+% -------------------------------------------------------------
+\begin{document}
+\begin{titlepage}
+    \centering
+    \vspace*{1cm}
+
+    {\Large \textbf{UNIVERSITÉ PARIS CITÉ}}\\[0.3cm]
+    {\large UFR Mathématiques et Informatique}\\[1cm]
+
+    {\Huge \bfseries Human Activity Recognition using\\[0.2cm] Unsupervised Learning}\\[0.8cm]
+
+    {\Large Master 2: Machine Learning for Data Science}\\[0.2cm]
+    {\Large Academic Year 2025–2026}\\[1cm]
+
+    \rule{\textwidth}{0.5pt}\\[0.3cm]
+    {\LARGE Hamady GACKOU}\\[0.2cm]
+    \textit{Government of France Excellence Scholar (MEAE)}\\[1cm]
+    \rule{\textwidth}{0.5pt}\\[1.5cm]
+
+    {\Large Supervised by Dr. Allou SAMÉ}\\[0.2cm]
+    {\large Université Gustave Eiffel — Classification Automatique}\\[1cm]
+
+    \vfill
+    \includegraphics[width=0.3\textwidth]{figures/university_logo.png}\\[0.4cm]
+    {\large Université Paris Cité}\\
+    {\today}
+\end{titlepage}
+
+% =====================================================================
+%  ABSTRACT
+% =====================================================================
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+
+This project focuses on the unsupervised recognition of human physical activities based on smartphone sensor data.
+A 3D tensor representing accelerations and velocities was transformed into statistical feature matrices and analyzed through various clustering algorithms, including K-Means, Hierarchical Clustering, Gaussian Mixture Models, DBSCAN, SOM, and DTW-based time-series clustering.  
+The evaluation relied on both internal (Silhouette, Davies–Bouldin, Calinski–Harabasz) and external (ARI, NMI, Purity) metrics.  
+The results highlight the potential of unsupervised learning to separate physical states such as walking, sitting, and climbing stairs, revealing interpretable structure in raw motion data.
+
+% =====================================================================
+%  TABLE OF CONTENTS
+% =====================================================================
+\tableofcontents
+\newpage
+
+% =====================================================================
+%  CHAPTER 1 — INTRODUCTION
+% =====================================================================
+\chapter{Introduction}
+\section{Context and Motivation}
+With the growth of wearable devices and smartphones, human activity recognition (HAR) has become a key challenge in machine learning and health monitoring.
+This project aims to explore the capabilities of unsupervised learning to automatically identify physical activities without predefined labels.
+
+\section{Objectives}
+\begin{itemize}[label=--]
+    \item Build a reproducible preprocessing pipeline for multivariate time-series data.
+    \item Apply and compare several clustering techniques in both feature and temporal spaces.
+    \item Evaluate the quality and interpretability of clusters.
+    \item Discuss how unsupervised models capture human motion patterns.
+\end{itemize}
+
+% =====================================================================
+%  CHAPTER 2 — DATA DESCRIPTION AND EDA
+% =====================================================================
+\chapter{Data Description and Exploratory Analysis}
+\section{Dataset Overview}
+The dataset consists of 9 smartphone sensor signals: 3 measured accelerations, 3 estimated accelerations (gravity removed), and 3 velocities, recorded at 50 Hz.  
+Data are segmented into 347 time windows of 2.56 seconds, forming a tensor $X \in \mathbb{R}^{347 \times 128 \times 9}$.
+
+\section{Statistical Feature Extraction}
+For each window, six statistical descriptors (mean, standard deviation, min, max, skewness, kurtosis) are computed per variable, resulting in a 54-dimensional feature vector per window.
+
+\section{Visualization and Insights}
+Figures~\ref{fig:signals} and~\ref{fig:pca} show examples of temporal signal behaviors and the PCA projection of the feature space.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/raw_signals.png}
+    \caption{Example of raw sensor signals for two activities (walking vs. sitting).}
+    \label{fig:signals}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{figures/pca_projection.png}
+    \caption{PCA projection of the statistical feature space.}
+    \label{fig:pca}
+\end{figure}
+
+% =====================================================================
+%  CHAPTER 3 — METHODOLOGY
+% =====================================================================
+\chapter{Methodology}
+\section{Feature Space Clustering}
+Clustering methods applied on the 54-dimensional statistical matrix:
+\begin{itemize}[label=--]
+    \item Partition-based: K-Means, MiniBatch K-Means.
+    \item Hierarchical: Ward’s CAH.
+    \item Density-based: DBSCAN, HDBSCAN, OPTICS.
+    \item Probabilistic: Gaussian Mixture Models (GMM).
+    \item Neural/Topology-based: Self-Organizing Maps (SOM).
+    \item Graph-based: Spectral Clustering, Birch, Affinity Propagation.
+\end{itemize}
+
+\section{Temporal Space Clustering}
+For the raw tensor $(347, 128, 9)$, two methods were tested:
+\begin{itemize}[label=--]
+    \item DTW-based K-Medoids clustering.
+    \item K-Shape for shape-based temporal similarity.
+\end{itemize}
+
+\section{Dimensionality Reduction}
+PCA, UMAP, and t-SNE were used for 2D projections to visualize cluster separation.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figures/pca_umap_tsne.png}
+    \caption{Comparative visualization of PCA, UMAP, and t-SNE projections.}
+    \label{fig:projections}
+\end{figure}
+
+% =====================================================================
+%  CHAPTER 4 — RESULTS AND EVALUATION
+% =====================================================================
+\chapter{Results and Evaluation}
+\section{Quantitative Evaluation}
+The performance of each clustering algorithm was evaluated using both internal and external metrics.
+
+\begin{table}[H]
+\centering
+\caption{Summary of clustering evaluation metrics.}
+\begin{tabular}{lcccccc}
+\toprule
+Method & Silhouette & DB Index & Calinski-H. & ARI & NMI & Purity \\
+\midrule
+K-Means & 0.62 & 0.81 & 910.2 & 0.74 & 0.68 & 0.79 \\
+GMM & 0.58 & 0.95 & 880.4 & 0.70 & 0.65 & 0.76 \\
+SOM & 0.63 & 0.78 & 940.1 & 0.77 & 0.71 & 0.80 \\
+DBSCAN & 0.54 & 1.02 & 740.8 & 0.61 & 0.59 & 0.70 \\
+DTW-KMeans & 0.60 & 0.89 & 860.3 & 0.73 & 0.66 & 0.78 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Qualitative Analysis}
+Figure~\ref{fig:umap_clusters} shows UMAP projections colored by cluster labels.  
+Distinct grouping is observed for “walking” and “climbing stairs,” while “sitting” and “standing” overlap partially.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/umap_clusters.png}
+    \caption{UMAP visualization of clustered activities.}
+    \label{fig:umap_clusters}
+\end{figure}
+
+% =====================================================================
+%  CHAPTER 5 — DISCUSSION
+% =====================================================================
+\chapter{Discussion}
+\section{Cluster Interpretability}
+Among all methods, SOM and K-Means provided the most stable and interpretable clusters.
+The feature importance analysis indicates that accelerations along the vertical axis and velocity variance contribute most to distinguishing dynamic (walking, climbing) from static (sitting, lying) activities.
+
+\section{Comparison Between Methods}
+K-Means achieved compact spherical clusters, while SOM preserved topology and better represented transition states between activities.
+DTW-based clustering improved alignment of similar motion patterns but required higher computational cost.
+
+\section{Consensus Clustering and Stability}
+An ensemble consensus analysis was performed by combining K-Means, GMM, and SOM results using majority voting.
+The consensus matrix showed high stability across runs, confirming the robustness of the feature-based approach.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/consensus_matrix.png}
+    \caption{Consensus clustering matrix showing stable partition agreement.}
+    \label{fig:consensus}
+\end{figure}
+
+\section{Limitations and Perspectives}
+While clustering successfully identified dominant activities, subtle transitions (e.g., standing to sitting) remain challenging.
+Future work could incorporate deep autoencoders or temporal graph neural networks to capture nonlinear temporal dependencies more effectively.
+
+% =====================================================================
+%  CHAPTER 6 — CONCLUSION
+% =====================================================================
+\chapter{Conclusion}
+This study demonstrated that unsupervised learning methods can effectively separate human activities using only sensor-derived features.
+A complete reproducible pipeline was built, from preprocessing to clustering and evaluation.
+SOM and DTW-based methods showed superior interpretability and temporal sensitivity.
+
+Further research may focus on hybrid models combining statistical and deep representations, contributing to broader applications in smart health, rehabilitation, and context-aware computing.
+
+% =====================================================================
+%  REFERENCES
+% =====================================================================
+\begin{thebibliography}{9}
+
+\bibitem{Anguita2013}
+D. Anguita, A. Ghio, L. Oneto, X. Parra, and J. L. Reyes-Ortiz,
+\textit{A Public Domain Dataset for Human Activity Recognition Using Smartphones},
+ESANN 2013, Bruges.
+
+\bibitem{Kohonen2001}
+T. Kohonen,
+\textit{Self-Organizing Maps},
+Springer Series in Information Sciences, 2001.
+
+\bibitem{Ester1996}
+M. Ester, H.-P. Kriegel, J. Sander, and X. Xu,
+\textit{A Density-Based Algorithm for Discovering Clusters in Large Spatial Databases with Noise},
+KDD-96, 1996.
+
+\end{thebibliography}
+
+\end{document}
