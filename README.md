@@ -8,7 +8,7 @@
 ---
 
 <p align="center">
-  <strong>🎓 Master 2 Machine Learning for Data Science</strong><br>
+  <strong> Master 2 Machine Learning for Data Science</strong><br>
   <strong>Université Paris Cité</strong> — UFR Sciences Fondamentales et Biomédicales
 </p>
 
@@ -104,7 +104,7 @@ The target is to build **interpretable, robust, and scalable representations** o
 
 ---
 
-## 📈 Quantitative Evaluation
+## Quantitative Evaluation
 
 | **Metric** | **Best Configuration** | **Insight** |
 |-------------|------------------------|--------------|
@@ -127,7 +127,7 @@ The target is to build **interpretable, robust, and scalable representations** o
 - **Centroid signal plots** highlighting mean motion profiles.  
 - **Correlation heatmaps** linking feature and temporal representations.
 
-> 🔹 **Strategic Impact:** Visual interpretability bridges machine decisions and human reasoning — a key requirement in explainable AI (XAI).
+> **Strategic Impact:** Visual interpretability bridges machine decisions and human reasoning — a key requirement in explainable AI (XAI).
 
 ---
 
@@ -157,3 +157,4 @@ The target is to build **interpretable, robust, and scalable representations** o
 
 # Step 3: Install dependencies
 pip install -r requirements.txt
+
