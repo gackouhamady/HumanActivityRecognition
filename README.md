@@ -141,7 +141,7 @@ The target is to build **interpretable, robust, and scalable representations** o
 
 ---
 
-## 🔬 Technical Environment
+##  Technical Environment
 
 - **Languages:** Python 3.10  
 - **Core Libraries:** NumPy, Pandas, Matplotlib, Scikit-learn, Tslearn, UMAP-learn, SciPy  
@@ -157,4 +157,5 @@ The target is to build **interpretable, robust, and scalable representations** o
 
 # Step 3: Install dependencies
 pip install -r requirements.txt
+
 
