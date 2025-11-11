@@ -9,52 +9,55 @@
 \providecommand\HyField@AuxAddToFields[1]{}
 \providecommand\HyField@AuxAddToCoFields[2]{}
 \babel@aux{english}{}
-\@writefile{toc}{\contentsline {chapter}{Abstract}{1}{chapter*.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {1}Introduction}{3}{chapter.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{Project Overview — Two Approaches}{2}{chapter*.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {1}I. Exploratory Data Analysis}{3}{chapter.1}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {1.1}Context and Motivation}{3}{section.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {1.2}Objectives}{3}{section.1.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {2}Data Description and Exploratory Analysis}{4}{chapter.2}\protected@file@percent }
-\@writefile{lof}{\addvspace {10\p@ }}
-\@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {2.1}Dataset Overview}{4}{section.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.2}Statistical Feature Extraction}{4}{section.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.3}Visualization and Insights}{4}{section.2.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2.1}{\ignorespaces Example of raw sensor signals for two activities (walking vs. sitting).}}{5}{figure.caption.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1.1}Data Loading \& Structuring}{3}{section.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1.2}Data Quality Check}{3}{section.1.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1.1}{\ignorespaces Activity label distribution showing imbalance across classes — an important consideration for model evaluation.}}{5}{figure.caption.3}\protected@file@percent }
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{fig:signals}{{2.1}{5}{Example of raw sensor signals for two activities (walking vs. sitting)}{figure.caption.3}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.2}{\ignorespaces PCA projection of the statistical feature space.}}{6}{figure.caption.4}\protected@file@percent }
-\newlabel{fig:pca}{{2.2}{6}{PCA projection of the statistical feature space}{figure.caption.4}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {3}Methodology}{7}{chapter.3}\protected@file@percent }
+\newlabel{fig:label_distribution}{{1.1}{5}{Activity label distribution showing imbalance across classes — an important consideration for model evaluation}{figure.caption.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.3}Visualization of Raw Signals}{5}{section.1.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1.2}{\ignorespaces Direct Approach visualizations: (a) temporal signal evolution, (b) global signal distribution.}}{6}{figure.caption.4}\protected@file@percent }
+\newlabel{fig:direct_viz_group}{{1.2}{6}{Direct Approach visualizations: (a) temporal signal evolution, (b) global signal distribution}{figure.caption.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.4}Statistical Analysis}{7}{section.1.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1.3}{\ignorespaces Distribution of extracted statistical features (Mean ± Std).}}{7}{figure.caption.5}\protected@file@percent }
+\newlabel{fig:feature_distribution_std}{{1.3}{7}{Distribution of extracted statistical features (Mean ± Std)}{figure.caption.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.5}Dimensionality Reduction and Projection}{7}{section.1.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1.4}{\ignorespaces 2D projections of the 54-dimensional feature space (PCA, UMAP, t-SNE). Nonlinear methods yield enhanced separation.}}{8}{figure.caption.6}\protected@file@percent }
+\newlabel{fig:2d_EDA}{{1.4}{8}{2D projections of the 54-dimensional feature space (PCA, UMAP, t-SNE). Nonlinear methods yield enhanced separation}{figure.caption.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.6}Correlation Analysis}{8}{section.1.6}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1.5}{\ignorespaces Correlation heatmap of the 54 extracted features (Feature-Based Approach).}}{9}{figure.caption.7}\protected@file@percent }
+\newlabel{fig:feature_corre_heatmap}{{1.5}{9}{Correlation heatmap of the 54 extracted features (Feature-Based Approach)}{figure.caption.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.7}Spectral Analysis}{9}{section.1.7}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1.6}{\ignorespaces Frequency spectrum (FFT) for a representative window showing rhythmic peaks.}}{10}{figure.caption.8}\protected@file@percent }
+\newlabel{fig:spectrum_window}{{1.6}{10}{Frequency spectrum (FFT) for a representative window showing rhythmic peaks}{figure.caption.8}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.8}Summary}{10}{section.1.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {2}II. Clustering Analysis and Visualization}{11}{chapter.2}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {3.1}Feature Space Clustering}{7}{section.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.2}Temporal Space Clustering}{7}{section.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.3}Dimensionality Reduction}{7}{section.3.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Comparative visualization of PCA, UMAP, and t-SNE projections.}}{8}{figure.caption.5}\protected@file@percent }
-\newlabel{fig:projections}{{3.1}{8}{Comparative visualization of PCA, UMAP, and t-SNE projections}{figure.caption.5}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}Results and Evaluation}{9}{chapter.4}\protected@file@percent }
-\@writefile{lof}{\addvspace {10\p@ }}
-\@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}Quantitative Evaluation}{9}{section.4.1}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces Summary of clustering evaluation metrics.}}{9}{table.caption.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}Qualitative Analysis}{9}{section.4.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces UMAP visualization of clustered activities.}}{10}{figure.caption.7}\protected@file@percent }
-\newlabel{fig:umap_clusters}{{4.1}{10}{UMAP visualization of clustered activities}{figure.caption.7}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Discussion}{11}{chapter.5}\protected@file@percent }
-\@writefile{lof}{\addvspace {10\p@ }}
-\@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {5.1}Cluster Interpretability}{11}{section.5.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5.2}Comparison Between Methods}{11}{section.5.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5.3}Consensus Clustering and Stability}{11}{section.5.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces Consensus clustering matrix showing stable partition agreement.}}{12}{figure.caption.8}\protected@file@percent }
-\newlabel{fig:consensus}{{5.1}{12}{Consensus clustering matrix showing stable partition agreement}{figure.caption.8}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.4}Limitations and Perspectives}{12}{section.5.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {6}Conclusion}{13}{chapter.6}\protected@file@percent }
-\@writefile{lof}{\addvspace {10\p@ }}
-\@writefile{lot}{\addvspace {10\p@ }}
-\bibcite{Anguita2013}{1}
-\bibcite{Kohonen2001}{2}
-\bibcite{Ester1996}{3}
-\gdef \@abspage@last{15}
+\@writefile{toc}{\contentsline {section}{\numberline {2.1}Imports and Data Loading}{11}{section.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.2}Load Features and Labels}{11}{section.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.3}Run All Clustering Methods}{11}{section.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.4}Quantitative Evaluation (All Methods)}{12}{section.2.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.1}{\ignorespaces Detailed quantitative evaluation of all clustering methods and configurations. Each method is annotated with its preprocessing stage (e.g., \textit  {+ PCA}, \textit  {+ UMAP}, or \textit  {+ TimeSeriesData}), allowing clear comparison between feature-based and temporal clustering approaches. Highlighted cells (\textbf  {★}) indicate best metric values across the configurations.}}{14}{figure.caption.9}\protected@file@percent }
+\newlabel{fig:clustering_evaluation_detailed_methods}{{2.1}{14}{Detailed quantitative evaluation of all clustering methods and configurations. Each method is annotated with its preprocessing stage (e.g., \textit {+ PCA}, \textit {+ UMAP}, or \textit {+ TimeSeriesData}), allowing clear comparison between feature-based and temporal clustering approaches. Highlighted cells (\textbf {★}) indicate best metric values across the configurations}{figure.caption.9}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.5}Summary: Visualization and Interpretation}{14}{section.2.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5.1}Visualize Clusters for Each Method}{15}{subsection.2.5.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.2}{\ignorespaces Comparative visualization of clustering results across methods.}}{15}{figure.caption.10}\protected@file@percent }
+\newlabel{fig:all_clusters}{{2.2}{15}{Comparative visualization of clustering results across methods}{figure.caption.10}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5.2}Dendrogram for Hierarchical Clustering}{16}{subsection.2.5.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.3}{\ignorespaces Hierarchical clustering dendrograms under different reductions.}}{16}{figure.caption.11}\protected@file@percent }
+\newlabel{fig:all_endogramms}{{2.3}{16}{Hierarchical clustering dendrograms under different reductions}{figure.caption.11}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5.3}Confusion Heatmap (Clusters vs. Labels)}{16}{subsection.2.5.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.4}{\ignorespaces Confusion matrices (Clusters vs. Labels) for all algorithms.}}{17}{figure.caption.12}\protected@file@percent }
+\newlabel{fig:all_conf_matrix}{{2.4}{17}{Confusion matrices (Clusters vs. Labels) for all algorithms}{figure.caption.12}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5.4}Cluster Centroids Visualization}{18}{subsection.2.5.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.5}{\ignorespaces Cluster centroid representations for all methods.}}{18}{figure.caption.13}\protected@file@percent }
+\newlabel{fig:all_centoroides_per_clusters}{{2.5}{18}{Cluster centroid representations for all methods}{figure.caption.13}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5.5}Pairwise Correlation Heatmap}{19}{subsection.2.5.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.6}{\ignorespaces Correlation heatmap across clusters and representations.}}{19}{figure.caption.14}\protected@file@percent }
+\newlabel{fig:all_clusters_heatmap_corr}{{2.6}{19}{Correlation heatmap across clusters and representations}{figure.caption.14}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.6}Summary of Clustering Analysis}{20}{section.2.6}\protected@file@percent }
+\gdef \@abspage@last{21}

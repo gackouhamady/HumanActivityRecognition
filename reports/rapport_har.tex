@@ -1,10 +1,3 @@
-% =====================================================================
-%  UNIVERSITÉ PARIS CITÉ — MASTER 2 MLDS
-%  Human Activity Recognition using Unsupervised Learning
-%  Author: Hamady GACKOU
-%  Step 5 — Discussion & Report Integration
-% =====================================================================
-
 \documentclass[12pt,a4paper]{report}
 
 % -------------------------------------------------------------
@@ -12,7 +5,7 @@
 % -------------------------------------------------------------
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[french,english]{babel}
+\usepackage[french,english]{babel} % L'anglais est défini comme langue principale
 \usepackage{geometry}
 \usepackage{graphicx}
 \usepackage{booktabs}
@@ -26,9 +19,28 @@
 \usepackage{float}
 \usepackage{titlesec}
 \usepackage{lmodern}
+\usepackage{verbatim} % Ajouté pour les blocs de code \begin{verbatim}
+
+% --- AJOUTS POUR LE TABLEAU CSV ---
+\usepackage{pgfplotstable} % Pour lire le fichier CSV
+\usepackage{pdflscape}     % Pour mettre la page en format PAYSAGE
+\usepackage{booktabs}      % Pour des lignes de tableau propres (vous l'avez déjà)
+\usepackage{graphicx}      % Pour redimensionner (si nécessaire)
+\usepackage{microtype} % Améliore la justification et la typographie
+\usepackage{tabularx}  % Pour des tableaux qui s'ajustent à la page
+
+% Configuration pour que le tableau CSV utilise le style booktabs
+\pgfplotsset{compat=1.18} % Bonne pratique
+\pgfplotstableset{
+    every head row/.style={before row=\toprule, after row=\midrule},
+    every last row/.style={after row=\bottomrule},
+    col sep=comma, % DIT À LATEX QUE VOTRE CSV UTILISE DES VIRGULES
+    string type    % Traite toutes les colonnes comme du texte par défaut
+}
+% --- FIN DES AJOUTS ---
 
 % -------------------------------------------------------------
-% PAGE STYLE
+% STYLE DE PAGE 
 % -------------------------------------------------------------
 \geometry{top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm}
 \setstretch{1.25}
@@ -38,225 +50,602 @@
     urlcolor=cyan,
     citecolor=teal
 }
+% Formatage des titres pour correspondre à un style de rapport
 \titleformat{\chapter}[block]{\normalfont\huge\bfseries}{\thechapter.}{1em}{}
 \titleformat{\section}[block]{\normalfont\Large\bfseries}{\thesection.}{0.75em}{}
+\titleformat{\subsection}[block]{\normalfont\large\bfseries}{\thesubsection.}{0.75em}{}
 \renewcommand{\figurename}{Figure}
 \renewcommand{\tablename}{Tableau}
 
+
+
+
 % -------------------------------------------------------------
-% TITLE PAGE
+% PAGE DE TITRE (Version "Séduisante" avec Logos)
 % -------------------------------------------------------------
 \begin{document}
 \begin{titlepage}
-    \centering
-    \vspace*{1cm}
+    % --- Section Haut: Logos ---
+    \noindent % Important pour éviter l'indentation
+    \begin{minipage}[t]{0.3\textwidth} % Minipage en haut à gauche
+        \raggedright
+        % DÉCOMMENTEZ ET ADAPTEZ LE CHEMIN
+        \includegraphics[width=3.5cm]{figures/up.png} 
+    \end{minipage}
+    \hfill % Espace flexible au milieu
+    \begin{minipage}[t]{0.3\textwidth} % Minipage en haut à droite
+        \raggedleft
+        % DÉCOMMENTEZ ET ADAPTEZ LE CHEMIN
+        \includegraphics[width=3.5cm]{figures/mlsd.jpeg}
+    \end{minipage}
+    
+    % --- Section Centrale: Titre ---
+    \vspace*{1.5cm} % Espace après les logos
+    \begin{center}
+        {\Large \textbf{UNIVERSITÉ PARIS CITÉ}}\\[0.3cm]
+        {\large UFR Sciences Fondamentales et Biomédicales}\\[1.5cm] % Espace augmenté
 
-    {\Large \textbf{UNIVERSITÉ PARIS CITÉ}}\\[0.3cm]
-    {\large UFR Mathématiques et Informatique}\\[1cm]
+        {\Huge \bfseries Human Activity Recognition using\\[0.2cm] Unsupervised Learning}\\[0.8cm]
 
-    {\Huge \bfseries Human Activity Recognition using\\[0.2cm] Unsupervised Learning}\\[0.8cm]
+        {\Large Master 2: Machine Learning for Data Science}\\[0.2cm]
+        {\Large Academic Year 2025–2026}\\[1.5cm] % Espace augmenté
 
-    {\Large Master 2: Machine Learning for Data Science}\\[0.2cm]
-    {\Large Academic Year 2025–2026}\\[1cm]
+        \rule{0.8\textwidth}{0.5pt}\\[0.3cm] % Règle à 80% de la largeur
+        {\LARGE Hamady GACKOU}\\[0.2cm]
+        \textit{Government of France Excellence Scholar (MEAE)}\\[1.5cm] % Espace augmenté
+        \rule{0.8\textwidth}{0.5pt}\\[1.5cm]
 
-    \rule{\textwidth}{0.5pt}\\[0.3cm]
-    {\LARGE Hamady GACKOU}\\[0.2cm]
-    \textit{Government of France Excellence Scholar (MEAE)}\\[1cm]
-    \rule{\textwidth}{0.5pt}\\[1.5cm]
-
-    {\Large Supervised by Dr. Allou SAMÉ}\\[0.2cm]
-    {\large Université Gustave Eiffel — Classification Automatique}\\[1cm]
-
-    \vfill
-    \includegraphics[width=0.3\textwidth]{figures/university_logo.png}\\[0.4cm]
-    {\large Université Paris Cité}\\
-    {\today}
+        {\Large Supervised by Dr. Allou SAMÉ}\\[0.2cm]
+        {\large Université Gustave Eiffel — Classification Automatique}
+    \end{center}
+    
+    % --- Section Bas: Info de fin ---
+    \vfill % Pousse le contenu suivant vers le bas
+    \begin{center}
+        {\large Université Paris Cité}\\
+        {\today}
+    \end{center}
 \end{titlepage}
+% -------------------------------------------------------------
+% PAGE DE TITRE (Version "Séduisante" avec Logos)
+% -------------------------------------------------------------
+
+
+
+
+
+
+
+
+
 
 % =====================================================================
-%  ABSTRACT
-% =====================================================================
-\chapter*{Abstract}
-\addcontentsline{toc}{chapter}{Abstract}
-
-This project focuses on the unsupervised recognition of human physical activities based on smartphone sensor data.
-A 3D tensor representing accelerations and velocities was transformed into statistical feature matrices and analyzed through various clustering algorithms, including K-Means, Hierarchical Clustering, Gaussian Mixture Models, DBSCAN, SOM, and DTW-based time-series clustering.  
-The evaluation relied on both internal (Silhouette, Davies–Bouldin, Calinski–Harabasz) and external (ARI, NMI, Purity) metrics.  
-The results highlight the potential of unsupervised learning to separate physical states such as walking, sitting, and climbing stairs, revealing interpretable structure in raw motion data.
-
-% =====================================================================
-%  TABLE OF CONTENTS
+%  TABLE DES MATIÈRES
 % =====================================================================
 \tableofcontents
 \newpage
 
 % =====================================================================
-%  CHAPTER 1 — INTRODUCTION
+%  TABLE DES MATIÈRES
 % =====================================================================
-\chapter{Introduction}
-\section{Context and Motivation}
-With the growth of wearable devices and smartphones, human activity recognition (HAR) has become a key challenge in machine learning and health monitoring.
-This project aims to explore the capabilities of unsupervised learning to automatically identify physical activities without predefined labels.
 
-\section{Objectives}
-\begin{itemize}[label=--]
-    \item Build a reproducible preprocessing pipeline for multivariate time-series data.
-    \item Apply and compare several clustering techniques in both feature and temporal spaces.
-    \item Evaluate the quality and interpretability of clusters.
-    \item Discuss how unsupervised models capture human motion patterns.
-\end{itemize}
 
-% =====================================================================
-%  CHAPTER 2 — DATA DESCRIPTION AND EDA
-% =====================================================================
-\chapter{Data Description and Exploratory Analysis}
-\section{Dataset Overview}
-The dataset consists of 9 smartphone sensor signals: 3 measured accelerations, 3 estimated accelerations (gravity removed), and 3 velocities, recorded at 50 Hz.  
-Data are segmented into 347 time windows of 2.56 seconds, forming a tensor $X \in \mathbb{R}^{347 \times 128 \times 9}$.
 
-\section{Statistical Feature Extraction}
-For each window, six statistical descriptors (mean, standard deviation, min, max, skewness, kurtosis) are computed per variable, resulting in a 54-dimensional feature vector per window.
 
-\section{Visualization and Insights}
-Figures~\ref{fig:signals} and~\ref{fig:pca} show examples of temporal signal behaviors and the PCA projection of the feature space.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{figures/raw_signals.png}
-    \caption{Example of raw sensor signals for two activities (walking vs. sitting).}
-    \label{fig:signals}
-\end{figure}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.7\textwidth]{figures/pca_projection.png}
-    \caption{PCA projection of the statistical feature space.}
-    \label{fig:pca}
-\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
 
 % =====================================================================
-%  CHAPTER 3 — METHODOLOGY
+%  CHAPTER 0 BIS — PROJECT OVERVIEW (Professional Version)
 % =====================================================================
-\chapter{Methodology}
-\section{Feature Space Clustering}
-Clustering methods applied on the 54-dimensional statistical matrix:
-\begin{itemize}[label=--]
-    \item Partition-based: K-Means, MiniBatch K-Means.
-    \item Hierarchical: Ward’s CAH.
-    \item Density-based: DBSCAN, HDBSCAN, OPTICS.
-    \item Probabilistic: Gaussian Mixture Models (GMM).
-    \item Neural/Topology-based: Self-Organizing Maps (SOM).
-    \item Graph-based: Spectral Clustering, Birch, Affinity Propagation.
-\end{itemize}
 
-\section{Temporal Space Clustering}
-For the raw tensor $(347, 128, 9)$, two methods were tested:
-\begin{itemize}[label=--]
-    \item DTW-based K-Medoids clustering.
-    \item K-Shape for shape-based temporal similarity.
-\end{itemize}
+\chapter*{Project Overview — Two Approaches}
+\addcontentsline{toc}{chapter}{Project Overview — Two Approaches}
 
-\section{Dimensionality Reduction}
-PCA, UMAP, and t-SNE were used for 2D projections to visualize cluster separation.
+\subsubsection*{Project Overview — Two Approaches for Time-Series Classification}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{figures/pca_umap_tsne.png}
-    \caption{Comparative visualization of PCA, UMAP, and t-SNE projections.}
-    \label{fig:projections}
-\end{figure}
+This project addresses \textbf{Human Activity Recognition (HAR)} using two complementary strategies
+inspired by \textit{Chapter 6 — Classification de séries temporelles}.
 
-% =====================================================================
-%  CHAPTER 4 — RESULTS AND EVALUATION
-% =====================================================================
-\chapter{Results and Evaluation}
-\section{Quantitative Evaluation}
-The performance of each clustering algorithm was evaluated using both internal and external metrics.
+Each strategy provides a distinct representation and analytical framework:
+one focuses on temporal similarity (\textit{Direct Approach}),
+the other on compact statistical descriptors (\textit{Feature-Based Approach}).
 
-\begin{table}[H]
-\centering
-\caption{Summary of clustering evaluation metrics.}
-\begin{tabular}{lcccccc}
+\vspace{0.5cm}
+\begin{center}
+\begin{tabular}{ p{0.18\textwidth} p{0.35\textwidth} p{0.17\textwidth} p{0.25\textwidth} } 
 \toprule
-Method & Silhouette & DB Index & Calinski-H. & ARI & NMI & Purity \\
+\textbf{Approach} & \textbf{Principle} & \textbf{Data Format} & \textbf{Main Algorithms} \\ 
 \midrule
-K-Means & 0.62 & 0.81 & 910.2 & 0.74 & 0.68 & 0.79 \\
-GMM & 0.58 & 0.95 & 880.4 & 0.70 & 0.65 & 0.76 \\
-SOM & 0.63 & 0.78 & 940.1 & 0.77 & 0.71 & 0.80 \\
-DBSCAN & 0.54 & 1.02 & 740.8 & 0.61 & 0.59 & 0.70 \\
-DTW-KMeans & 0.60 & 0.89 & 860.3 & 0.73 & 0.66 & 0.78 \\
+
+\textbf{1. Direct (Distance-Based)} &
+Works directly on raw temporal sequences (128×9), comparing complete signal windows using time-aware distance metrics. &
+Tensor $(347 \times 128 \times 9)$ &
+Euclidean • Correlation • DTW $\rightarrow$ K-Means (DTW-DBA), PAM, CAH \\
+
+\addlinespace[4pt]
+
+\textbf{2. Feature-Based (Transformation)} &
+Transforms each temporal window into a fixed-length vector of statistical \& spectral descriptors
+(mean, std, skewness, kurtosis, energy, AR coefficients, etc.). &
+Matrix $(347 \times p)$ &
+K-Means • GMM • SOM • Hierarchical (Ward) \\
+
 \bottomrule
 \end{tabular}
-\end{table}
+\end{center}
 
-\section{Qualitative Analysis}
-Figure~\ref{fig:umap_clusters} shows UMAP projections colored by cluster labels.  
-Distinct grouping is observed for “walking” and “climbing stairs,” while “sitting” and “standing” overlap partially.
+\vspace{0.6cm}
+Both representations will be thoroughly explored during the \textbf{Exploratory Data Analysis (EDA)} phase.
+The goal is to study the intrinsic structure and separability of the data,
+ensuring robust preparation for the clustering and evaluation stages.
+
+\vspace{0.5cm}
+\begin{center}
+\rule{0.75\textwidth}{0.4pt}\\
+\textit{Together, these two approaches provide a unified and comprehensive view of human activity dynamics — 
+combining temporal precision and statistical interpretability.}
+\end{center}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% =====================================================================
+%  PART I — EXPLORATORY DATA ANALYSIS (Professional Version)
+% =====================================================================
+
+\chapter{I. Exploratory Data Analysis}
+
+This section presents the preparatory analyses carried out before clustering.
+It aims to ensure the quality, interpretability, and consistency of both data representations
+— the \textbf{Direct (Distance-Based)} and \textbf{Feature-Based (Transformation)} approaches.
+
+% -------------------------------------------------------------
+\section{Data Loading \& Structuring}
+Two complementary representations were prepared, following the methodology of
+\textit{Chapter 6 — Classification de séries temporelles}:
+
+\begin{itemize}[leftmargin=1.2cm, label=--, itemsep=2pt]
+    \item $X$ — 3D tensor $(347, 128, 9)$ representing raw time-series (Direct Approach).
+    \item $Z$ — 2D feature matrix $(347, p)$ summarizing each window statistically (Feature-Based).
+    \item $y$ — label vector $(347,)$ containing true activity classes (1–6).
+\end{itemize}
+
+Each of the 347 samples corresponds to a 2.56-second window (128 steps × 9 sensor variables: accelerations and velocities).  
+The file \texttt{lab.txt} contains the reference labels used for external evaluation.
+
+\begin{verbatim}
+Tensor X: (347, 128, 9)
+Labels y: (347,)
+Feature matrix Z: (347, 1152)
+\end{verbatim}
+
+% -------------------------------------------------------------
+\section{Data Quality Check}
+\subsubsection*{Goal}
+Ensure data integrity and consistency prior to the analytical phase.
+
+\begin{center}
+\begin{tabularx}{\textwidth}{l X} 
+\toprule
+\textbf{Approach} & \textbf{Focus} \\ 
+\midrule
+\textbf{Direct (Distance-Based)} & Validate full 3D tensor for DTW or correlation analysis. \\
+\textbf{Feature-Based (Transformation)} & Check numerical stability before feature extraction. \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Outputs:} Clean data, verified shapes, and statistical summaries confirming readiness for both analyses.
+
+\begin{verbatim}
+Shapes -> X: (347, 128, 9)  | y: (347,)
+No missing/infinite values ✓
+       Var    Mean     Std     Min     Max
+0   accm_x -0.0024  0.1484 -0.7900  1.0577
+1   accm_y -0.0006  0.1093 -1.0220  0.4662
+2   accm_z  0.0002  0.0921 -0.6915  0.6700
+3   acce_x  0.8600  0.1468 -0.4666  2.0581
+4   acce_y -0.0650  0.1071 -1.2646  1.2174
+5   acce_z  0.0657  0.0881 -0.6988  1.2814
+6    vit_x  0.0070  0.2736 -3.5370  2.6840
+7    vit_y -0.0062  0.4206 -3.0731  2.6787
+8    vit_z -0.0000  0.1963 -1.8112  1.0949
+\end{verbatim}
+
+\textbf{Conclusion:}  
+The dataset is complete, free from missing values, and ready for:
+\begin{itemize}[label=--, leftmargin=1.2cm, itemsep=2pt]
+    \item \textbf{Direct Analysis:} DTW/Correlation-based clustering.
+    \item \textbf{Feature Analysis:} Statistical and spectral feature extraction.
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{figures/label_distribution.png}
+\caption{Activity label distribution showing imbalance across classes — an important consideration for model evaluation.}
+\label{fig:label_distribution}
+\end{figure}
+
+% -------------------------------------------------------------
+\section{Visualization of Raw Signals}
+Raw time-series exploration helps to intuitively distinguish static and dynamic activities.
+
+\begin{itemize}[label=--, leftmargin=1.2cm, itemsep=2pt]
+    \item Individual signal plots per activity.
+    \item Amplitude and rhythm comparison across sensor variables.
+    \item Visual cues supporting both DTW and feature-based clustering.
+\end{itemize}
+
+The \textbf{Direct Approach} retains the full temporal structure — ideal for dynamic pattern analysis but sensitive to noise.
+The \textbf{Feature-Based Approach} summarizes these signals into compact descriptors,
+offering speed and interpretability at the cost of temporal granularity.
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}[b]{0.9\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figures/direct_window.png}
+\caption{Example of a raw signal window (Direct Approach).}
+\end{subfigure}
+\vspace{0.3cm}
+\begin{subfigure}[b]{0.9\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figures/direct_distribution.png}
+\caption{Signal distribution across variables (Direct Approach).}
+\end{subfigure}
+\caption{Direct Approach visualizations: (a) temporal signal evolution, (b) global signal distribution.}
+\label{fig:direct_viz_group}
+\end{figure}
+
+Both views are complementary: temporal coherence versus statistical discriminability.
+
+% -------------------------------------------------------------
+\section{Statistical Analysis}
+\subsubsection*{Goal}
+Extract six statistical descriptors per sensor (mean, std, min, max, skewness, kurtosis),
+forming the basis of the feature-based matrix.
+
+\textbf{Why:}  
+This transformation reduces noise, summarizes dynamics, and enables faster clustering.
+
+\textbf{Outputs:}
+\begin{itemize}[label=--, leftmargin=1.2cm, itemsep=2pt]
+    \item Summary table of statistical metrics.
+    \item Feature matrix (347×54) ready for clustering.
+    \item Insights on the most discriminative sensor axes.
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\textwidth]{figures/feature_distribution_std.png}
+\caption{Distribution of extracted statistical features (Mean ± Std).}
+\label{fig:feature_distribution_std}
+\end{figure}
+
+
+% -------------------------------------------------------------
+\section{Dimensionality Reduction and Projection}
+\subsubsection*{Goal}
+Reduce the 54-dimensional feature space to 2D for visualization and exploratory clustering.
+
+\textbf{Techniques:}
+\begin{itemize}[label=--, leftmargin=1.2cm, itemsep=2pt]
+    \item \textbf{PCA:} captures global variance.
+    \item \textbf{UMAP:} preserves both global and local topology.
+    \item \textbf{t-SNE:} emphasizes local neighborhood structures.
+\end{itemize}
+
+These projections clearly separate activities and validate clustering potential.
+PCA ensures linear interpretability, while UMAP and t-SNE highlight nonlinear separability.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures/2d_EDA.png}
+\caption{2D projections of the 54-dimensional feature space (PCA, UMAP, t-SNE). Nonlinear methods yield enhanced separation.}
+\label{fig:2d_EDA}
+\end{figure}
+
+% -------------------------------------------------------------
+\section{Correlation Analysis}
+\subsubsection*{Goal}
+Assess redundancy among features and relationships between temporal windows.
+
+\textbf{Outputs:}
+\begin{itemize}[label=--, leftmargin=1.2cm, itemsep=2pt]
+    \item 54×54 feature correlation heatmap.
+    \item Identification of dependencies ($|r| > 0.8$).
+    \item Basis for dimensionality reduction decisions.
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{figures/feature_corre_heatmap.png}
+\caption{Correlation heatmap of the 54 extracted features (Feature-Based Approach).}
+\label{fig:feature_corre_heatmap}
+\end{figure}
+
+Strong intra-sensor correlations (e.g., between axes of the same accelerometer)
+suggest redundancy within statistical features — justifying PCA or feature selection.
+
+% -------------------------------------------------------------
+\section{Spectral Analysis}
+\subsubsection*{Goal}
+Use \textbf{FFT} to identify frequency-domain characteristics of activities.
+
+\textbf{Outputs:}
+\begin{itemize}[label=--, leftmargin=1.2cm, itemsep=2pt]
+    \item FFT spectra per window and sensor.
+    \item Dominant frequencies (walking $\approx$ 1–2 Hz).
+    \item Spectral energy distribution improving clustering interpretability.
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{figures/spectrum_window.png}
+\caption{Frequency spectrum (FFT) for a representative window showing rhythmic peaks.}
+\label{fig:spectrum_window}
+\end{figure}
+
+The FFT reveals dominant peaks between 15–17 Hz, confirming that Activity 3 involves
+periodic, rhythmic, medium-frequency motion patterns.
+
+% -------------------------------------------------------------
+\section{Summary}
+\textbf{Key EDA Insights:}
+\begin{itemize}[label=--, leftmargin=1.2cm, itemsep=2pt]
+    \item Dataset is clean, consistent, and balanced for analysis.
+    \item Clear amplitude and shape differences → separable activities.
+    \item 54 normalized features → compact, interpretable dataset.
+    \item PCA/UMAP/t-SNE → strong evidence of nonlinear separability.
+    \item FFT distinguishes static (0 Hz) vs. dynamic (1–3 Hz) activities.
+\end{itemize}
+
+\textbf{Prepared Outputs:}
+\begin{itemize}[label=--, leftmargin=1.2cm, itemsep=2pt]
+    \item \texttt{features.npy} — normalized feature matrix.
+    \item \texttt{labels.npy} — ground-truth activity labels.
+    \item \texttt{tensor\_X.npy} — raw time-series tensor.
+\end{itemize}
+
+
+\vspace{0.5cm}
+\begin{center}
+\rule{0.75\textwidth}{0.4pt}\\
+\textit{The EDA confirms dataset reliability and feature quality.
+Both representations — temporal and statistical — are ready for the clustering phase.}
+\end{center}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% =====================================================================
+%  PART II — CLUSTERING ANALYSIS AND VISUALIZATION
+% =====================================================================
+
+\chapter{II. Clustering Analysis and Visualization}
+
+This section presents the comparative study of clustering algorithms applied to both representations:
+the \textbf{Feature-Based} and the \textbf{Time-Series (Direct)} approaches.
+It integrates visualization, quantitative evaluation, and interpretation of results from multiple algorithms
+(K-Means, CAH, GMM, DBSCAN, SOM, DTW-KMeans, etc.).
+
+% -------------------------------------------------------------
+\section{Imports and Data Loading}
+All required libraries (Scikit-learn, Matplotlib, Pandas, Tslearn, etc.) were imported, and the pre-processed datasets
+(\texttt{features.npy}, \texttt{labels.npy}, and \texttt{tensor\_X.npy}) were loaded from the EDA phase.
+Both representations share synchronized labels (\( y \in \mathbb{R}^{347} \)) ensuring a fair comparison.
+
+% -------------------------------------------------------------
+\section{Load Features and Labels}
+The normalized feature matrix \( Z \in \mathbb{R}^{347 \times 54} \) and the time-series tensor
+\( X \in \mathbb{R}^{347 \times 128 \times 9} \) were loaded and verified.
+These datasets form the basis for the two methodological families of clustering.
+
+% -------------------------------------------------------------
+\section{Run All Clustering Methods}
+Dimensionality reduction (PCA, UMAP, t-SNE) was applied before clustering to reduce redundancy,
+enhance distance consistency, and reveal intrinsic geometry.
+
+\subsubsection*{Impact of Dimensionality Reduction on Cluster Detection}
+Without dimensionality reduction, most partition-based methods (KMeans, GMM, CAH, Spectral, Birch)
+consistently produced 6 clusters as expected.
+However, adaptive and density-based algorithms exhibited variable behavior:
+\begin{itemize}[label=--, leftmargin=1.2cm, itemsep=2pt]
+    \item \textbf{AffinityPropagation:} over-segmented the space (26 clusters).
+    \item \textbf{DBSCAN:} identified one dense region only.
+    \item \textbf{OPTICS} and \textbf{HDBSCAN:} found 5 and 3 clusters respectively.
+    \item \textbf{SOM:} activated 68 neurons, reflecting fine local granularity.
+\end{itemize}
+
+After \textbf{PCA}, feature redundancy decreased and cluster compactness improved:
+Affinity dropped to 18 clusters, while HDBSCAN and OPTICS stabilized near 4–5 clusters.
+
+Using \textbf{UMAP}, which preserves local structure, density-based models captured
+more meaningful neighborhood separations (DBSCAN → 7, HDBSCAN → 5 clusters).
+Linear reduction (PCA) enhances homogeneity, while nonlinear reduction (UMAP) improves local separability,
+making clusters more consistent with the intrinsic manifold.
+
+% -------------------------------------------------------------
+\section{Quantitative Evaluation (All Methods)}
+Across approximately 49 clustering configurations — combining both \textbf{Feature-Based} and \textbf{Time-Series} approaches 
+with various dimensionality reductions (\textit{None}, \textit{PCA}, \textit{UMAP}, and \textit{t-SNE}) — the following quantitative trends were observed:
+
+\begin{itemize}[label=--, leftmargin=1.2cm, itemsep=2pt]
+    \item \textbf{Highest internal cohesion:} \textbf{HDBSCAN + PCA} achieved the best overall Silhouette score ($0.379$), 
+    indicating compact and well-separated clusters after linear reduction.
+    
+    \item \textbf{Strongest overall compactness:} \textbf{HDBSCAN (no reduction)} recorded the maximum Silhouette value ($0.462$),
+    reflecting that the algorithm natively adapts well to the intrinsic structure of the feature space without preprocessing.
+    
+    \item \textbf{Best external alignment:} \textbf{KMeans (t-SNE projection)} yielded an outstanding 
+    Adjusted Rand Index ($ARI = 0.98$) and Normalized Mutual Information ($NMI = 0.978$),
+    confirming excellent agreement between predicted clusters and true activity labels.
+    
+    \item \textbf{Feature-Based models:} Classical algorithms such as \textbf{GMM}, \textbf{CAH-Ward}, and \textbf{Birch}
+    maintained solid $ARI$ values (0.59–0.81) with consistent Calinski–Harabasz indices ($>90{,}000$),
+    indicating stable geometric cohesion and moderate cluster overlap.
+    
+    \item \textbf{Dimensionality reduction effects:}
+    \begin{itemize}[label=--, leftmargin=1.5cm]
+        \item \textbf{PCA} improved linear separability, stabilizing density-based methods like HDBSCAN and Birch.
+        \item \textbf{UMAP} captured local nonlinear patterns ($NMI \approx 0.85$), reinforcing interpretability.
+        \item \textbf{t-SNE} revealed clearer substructures with very high label fidelity but weaker Silhouette due to crowding effects.
+    \end{itemize}
+
+    \item \textbf{Time-Series clustering:} 
+    Models such as \textbf{DTW-KMeans + TimeSeriesData} and \textbf{KShape + TimeSeriesData} displayed strong external consistency 
+    ($ARI \approx 0.93$–$0.94$, $NMI \approx 0.95$), confirming their ability to capture phase shifts and temporal dynamics 
+    in the raw signal representation.
+\end{itemize}
+
+\vspace{0.2cm}
+\noindent\textbf{Summary of observations:}
+\begin{itemize}[label=--, leftmargin=1.2cm, itemsep=2pt]
+    \item The \textbf{Feature-Based} framework (especially \textbf{HDBSCAN + PCA}) offered robust and interpretable partitions, 
+    emphasizing statistical separability across activities.
+    \item The \textbf{Time-Series} approach (notably \textbf{DTW-KMeans + TimeSeriesData}) 
+    excelled at preserving dynamic continuity and temporal coherence between similar motions.
+\end{itemize}
+
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{figures/umap_clusters.png}
-    \caption{UMAP visualization of clustered activities.}
-    \label{fig:umap_clusters}
+    \includegraphics[width=0.95\textwidth]{figures/clustering_evaluation_detailed_methods.png}
+    \caption{Detailed quantitative evaluation of all clustering methods and configurations. 
+    Each method is annotated with its preprocessing stage (e.g., \textit{+ PCA}, \textit{+ UMAP}, or \textit{+ TimeSeriesData}), 
+    allowing clear comparison between feature-based and temporal clustering approaches. 
+    Highlighted cells (\textbf{★}) indicate best metric values across the configurations.}
+    \label{fig:clustering_evaluation_detailed_methods}
 \end{figure}
 
-% =====================================================================
-%  CHAPTER 5 — DISCUSSION
-% =====================================================================
-\chapter{Discussion}
-\section{Cluster Interpretability}
-Among all methods, SOM and K-Means provided the most stable and interpretable clusters.
-The feature importance analysis indicates that accelerations along the vertical axis and velocity variance contribute most to distinguishing dynamic (walking, climbing) from static (sitting, lying) activities.
 
-\section{Comparison Between Methods}
-K-Means achieved compact spherical clusters, while SOM preserved topology and better represented transition states between activities.
-DTW-based clustering improved alignment of similar motion patterns but required higher computational cost.
+% -------------------------------------------------------------
+\section{Summary: Visualization and Interpretation}
+These experiments confirm the robustness and complementarity of the two frameworks:
+the \textbf{Feature-Based approach} provides compact, efficient representations,
+whereas the \textbf{Time-Series approach} captures subtle rhythmic patterns.
+Together, they deliver a consistent, multilevel understanding of the dataset’s structure.
 
-\section{Consensus Clustering and Stability}
-An ensemble consensus analysis was performed by combining K-Means, GMM, and SOM results using majority voting.
-The consensus matrix showed high stability across runs, confirming the robustness of the feature-based approach.
+% -------------------------------------------------------------
+\subsection{Visualize Clusters for Each Method}
+Cluster assignments projected into 2D (via UMAP or PCA) illustrate
+the spatial separability achieved by different algorithms.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{figures/consensus_matrix.png}
-    \caption{Consensus clustering matrix showing stable partition agreement.}
-    \label{fig:consensus}
+\centering
+\includegraphics[width=0.9\textwidth]{figures/all_clusters.png}
+\caption{Comparative visualization of clustering results across methods.}
+\label{fig:all_clusters}
 \end{figure}
 
-\section{Limitations and Perspectives}
-While clustering successfully identified dominant activities, subtle transitions (e.g., standing to sitting) remain challenging.
-Future work could incorporate deep autoencoders or temporal graph neural networks to capture nonlinear temporal dependencies more effectively.
+% -------------------------------------------------------------
+\subsection{Dendrogram for Hierarchical Clustering}
+Hierarchical (Ward) clustering produces balanced branches with well-defined inter-cluster distances.
+Dimensionality reduction via PCA or UMAP preserves hierarchy while simplifying its depth,
+confirming consistency across reduced spaces.
 
-% =====================================================================
-%  CHAPTER 6 — CONCLUSION
-% =====================================================================
-\chapter{Conclusion}
-This study demonstrated that unsupervised learning methods can effectively separate human activities using only sensor-derived features.
-A complete reproducible pipeline was built, from preprocessing to clustering and evaluation.
-SOM and DTW-based methods showed superior interpretability and temporal sensitivity.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{figures/all_endogramms.png}
+\caption{Hierarchical clustering dendrograms under different reductions.}
+\label{fig:all_endogramms}
+\end{figure}
 
-Further research may focus on hybrid models combining statistical and deep representations, contributing to broader applications in smart health, rehabilitation, and context-aware computing.
+% -------------------------------------------------------------
+\subsection{Confusion Heatmap (Clusters vs. Labels)}
+Confusion matrices compare predicted clusters and true labels for both frameworks.
+Feature-based models (KMeans, GMM, Ward) exhibit strong diagonal dominance,
+while DTW-KMeans and KShape also align well despite temporal overlap.
+Density-based models (DBSCAN, HDBSCAN) show more noise-sensitive distributions.
 
-% =====================================================================
-%  REFERENCES
-% =====================================================================
-\begin{thebibliography}{9}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{figures/all_conf_matrix.png}
+\caption{Confusion matrices (Clusters vs. Labels) for all algorithms.}
+\label{fig:all_conf_matrix}
+\end{figure}
 
-\bibitem{Anguita2013}
-D. Anguita, A. Ghio, L. Oneto, X. Parra, and J. L. Reyes-Ortiz,
-\textit{A Public Domain Dataset for Human Activity Recognition Using Smartphones},
-ESANN 2013, Bruges.
+% -------------------------------------------------------------
+\subsection{Cluster Centroids Visualization}
+Cluster centroids summarize the mean feature or signal profile per cluster.
+Feature-based centroids (KMeans, GMM, Ward) show clear and interpretable contrasts,
+while time-series centroids (DTW-KMeans, KShape) preserve periodic shapes.
 
-\bibitem{Kohonen2001}
-T. Kohonen,
-\textit{Self-Organizing Maps},
-Springer Series in Information Sciences, 2001.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{figures/all_centoroides_per_clusters.png}
+\caption{Cluster centroid representations for all methods.}
+\label{fig:all_centoroides_per_clusters}
+\end{figure}
 
-\bibitem{Ester1996}
-M. Ester, H.-P. Kriegel, J. Sander, and X. Xu,
-\textit{A Density-Based Algorithm for Discovering Clusters in Large Spatial Databases with Noise},
-KDD-96, 1996.
+% -------------------------------------------------------------
+\subsection{Pairwise Correlation Heatmap}
+Pairwise correlations across all clustering outputs reveal
+that feature-based models maintain structured dependencies,
+whereas temporal methods display nonlinear interrelations.
+This confirms the complementary statistical and dynamic perspectives.
 
-\end{thebibliography}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{figures/all_clusters_heatmap_corr.png}
+\caption{Correlation heatmap across clusters and representations.}
+\label{fig:all_clusters_heatmap_corr}
+\end{figure}
+
+% -------------------------------------------------------------
+\section{Summary of Clustering Analysis}
+\begin{itemize}[label=--, leftmargin=1.2cm, itemsep=2pt]
+    \item \textbf{Feature-Based Approach:} interpretable, compact, and efficient representation of human motion.
+    \item \textbf{Time-Series Approach:} preserves phase and rhythmic continuity in dynamic sequences.
+\end{itemize}
+
+Together, these paradigms offer a unified framework bridging interpretability and dynamical accuracy.
+They validate the robustness of the dual-pipeline architecture and open pathways toward
+hybrid fusion, multimodal clustering, and deep temporal embedding (e.g., Autoencoders or Transformers).
+
+\vspace{0.5cm}
+\begin{center}
+\rule{0.75\textwidth}{0.4pt}\\
+\textit{The clustering phase confirms the methodological complementarity between
+statistical compactness and temporal precision, forming a reliable basis for advanced hybrid models.}
+\end{center}
+
+
+
 
 \end{document}
