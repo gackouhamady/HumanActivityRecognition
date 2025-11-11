@@ -1,230 +1,104 @@
 """
-===============================================================
-Clustering Methods Implementation
-===============================================================
+=====================================================================
+STRICT MULTI-APPROACH CLUSTERING VALIDATION & EXECUTION
+=====================================================================
 Author: Hamady GACKOU
-Master 2 – Machine Learning for Data Science (Université Paris Cité)
-
-Purpose:
---------
-Apply and compare multiple clustering algorithms for Human Activity Recognition.
-Supports both:
- - Statistical feature matrix (347×54)
- - Temporal tensor data (347×128×9)
-
-Methods implemented (>10 total):
---------------------------------
-1. K-Means
-2. Agglomerative Hierarchical Clustering (CAH)
-3. DBSCAN
-4. HDBSCAN
-5. Gaussian Mixture Models (GMM)
-6. Spectral Clustering
-7. Birch
-8. Affinity Propagation
-9. OPTICS
-10. MiniBatch K-Means
-11. Self-Organizing Map (SOM)
-12. DTW-based K-Medoids (for time-series tensor)
+Université Paris Cité — Master 2 Machine Learning for Data Science
+---------------------------------------------------------------------
+Main driver script:
+Checks, validates, and runs clustering for both:
+1️⃣ Direct (Tensor-based) approach
+2️⃣ Feature-based approach
+=====================================================================
 """
 
 # ============================================================
-#  Imports
+# Imports
 # ============================================================
-import numpy as np
-from sklearn.cluster import (
-    KMeans, AgglomerativeClustering, DBSCAN, SpectralClustering,
-    Birch, AffinityPropagation, OPTICS, MiniBatchKMeans
-)
-from sklearn.mixture import GaussianMixture
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import pairwise_distances
-import warnings
+import os, sys, numpy as np
 
-# Optional advanced packages
+# Import both specialized modules
+from src.feature_clustering import run_feature_clustering
+from src.tensor_clustering import run_tensor_clustering
+
+# ============================================================
+# ✅ STEP 1 — PATH CONFIGURATION
+# ============================================================
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+DATA_DIR = os.path.join(PROJECT_ROOT, "data")
+
+TENSOR_PATH = os.path.join(DATA_DIR, "X_direct.npy")
+FEATURES_PATH = os.path.join(DATA_DIR, "features.npy")
+LABELS_PATH = os.path.join(DATA_DIR, "labels.npy")
+
+print(f"\n📂 Data directory: {DATA_DIR}")
+
+# ============================================================
+# ✅ STEP 2 — LOAD AND VALIDATE DATA
+# ============================================================
+
+def safe_load(path, name):
+    """Load file safely, raise clear error if not found."""
+    if not os.path.exists(path):
+        raise FileNotFoundError(f"❌ {name} file not found at: {path}")
+    arr = np.load(path)
+    print(f"✓ Loaded {name}: shape={arr.shape}")
+    return arr
+
 try:
-    import hdbscan
-    from tslearn.clustering import TimeSeriesKMeans
-    from minisom import MiniSom
-except ImportError:
-    warnings.warn("Some optional packages (hdbscan, tslearn, minisom) not installed.")
-
-
-# ============================================================
-#  Helper Functions
-# ============================================================
-
-def normalize_features(X):
-    """Standardize features for clustering."""
-    scaler = StandardScaler()
-    return scaler.fit_transform(X)
-
-
-def reshape_tensor_to_features(X_tensor):
-    """Flatten a 3D tensor (n_samples, time_steps, variables) into 2D."""
-    n, t, v = X_tensor.shape
-    return X_tensor.reshape(n, t * v)
-
+    X_direct = safe_load(TENSOR_PATH, "Tensor (X_direct)")
+    X_features = safe_load(FEATURES_PATH, "Feature Matrix (X_features)")
+    y = safe_load(LABELS_PATH, "Labels (y)")
+except Exception as e:
+    print(f"\n🚫 Data loading failed: {e}")
+    sys.exit(1)
 
 # ============================================================
-# Clustering Methods (Feature Matrix)
+# ✅ STEP 3 — CONSISTENCY CHECKS
 # ============================================================
 
-def run_kmeans(X, n_clusters=6, random_state=42):
-    model = KMeans(n_clusters=n_clusters, random_state=random_state)
-    return model.fit_predict(X)
+def validate_shapes(X_direct, X_features, y):
+    """Ensure both matrices have consistent structure and valid values."""
+    problems = []
+    if X_direct.ndim != 3:
+        problems.append("X_direct must be 3D (n_samples, time_steps, variables)")
+    if X_features.ndim != 2:
+        problems.append("X_features must be 2D (n_samples, n_features)")
+    if X_direct.shape[0] != X_features.shape[0] or X_features.shape[0] != y.shape[0]:
+        problems.append("Number of samples must match across all datasets")
+    if np.isnan(X_direct).any() or np.isnan(X_features).any():
+        problems.append("NaN values detected in matrices")
+    if np.isinf(X_direct).any() or np.isinf(X_features).any():
+        problems.append("Infinite values detected in matrices")
 
-def run_minibatch_kmeans(X, n_clusters=6, random_state=42):
-    model = MiniBatchKMeans(n_clusters=n_clusters, random_state=random_state, batch_size=32)
-    return model.fit_predict(X)
+    if problems:
+        print("\n🚫 Validation failed:")
+        for p in problems:
+            print(f"   • {p}")
+        sys.exit(1)
+    else:
+        print("\n✅ Data validation passed — all matrices are consistent.\n")
 
-def run_hierarchical(X, n_clusters=6, linkage='ward'):
-    model = AgglomerativeClustering(n_clusters=n_clusters, linkage=linkage)
-    return model.fit_predict(X)
-
-def run_dbscan(X, eps=0.7, min_samples=5):
-    model = DBSCAN(eps=eps, min_samples=min_samples)
-    return model.fit_predict(X)
-
-def run_hdbscan(X, min_cluster_size=5):
-    """Requires hdbscan library."""
-    model = hdbscan.HDBSCAN(min_cluster_size=min_cluster_size)
-    return model.fit_predict(X)
-
-def run_gmm(X, n_clusters=6, random_state=42):
-    model = GaussianMixture(n_components=n_clusters, random_state=random_state)
-    return model.fit_predict(X)
-
-def run_spectral(X, n_clusters=6, random_state=42):
-    model = SpectralClustering(n_clusters=n_clusters, affinity='nearest_neighbors', random_state=random_state)
-    return model.fit_predict(X)
-
-def run_birch(X, n_clusters=6):
-    model = Birch(n_clusters=n_clusters)
-    return model.fit_predict(X)
-
-def run_affinity(X, damping=0.9):
-    model = AffinityPropagation(damping=damping)
-    return model.fit_predict(X)
-
-def run_optics(X, min_samples=10, xi=0.05):
-    model = OPTICS(min_samples=min_samples, xi=xi)
-    return model.fit_predict(X)
-
+validate_shapes(X_direct, X_features, y)
 
 # ============================================================
-# Self-Organizing Map (SOM)
+# ✅ STEP 4 — RUN CLUSTERING (Both Approaches)
 # ============================================================
+print("🚀 Starting Multi-Approach Clustering...\n")
 
-def run_som(X, som_x=10, som_y=10, sigma=1.0, learning_rate=0.5, num_iteration=1000, random_state=42):
-    """
-    Train a Self-Organizing Map on normalized feature space.
-    Requires `minisom` package.
-    """
-    from minisom import MiniSom
-    np.random.seed(random_state)
-    
-    som = MiniSom(som_x, som_y, X.shape[1], sigma=sigma, learning_rate=learning_rate)
-    som.random_weights_init(X)
-    som.train_random(X, num_iteration)
-    
-    # Map each sample to its winning neuron
-    winners = np.array([som.winner(x) for x in X])
-    labels = np.array([wx * som_y + wy for wx, wy in winners])
-    print(f"✅ SOM trained → grid {som_x}×{som_y}, total neurons={som_x*som_y}")
-    return labels
-
+try:
+    feature_results = run_feature_clustering(X_features, n_clusters=6)
+    tensor_results = run_tensor_clustering(X_direct, n_clusters=6)
+except Exception as e:
+    print(f"\n🚫 Clustering execution failed: {e}")
+    sys.exit(1)
 
 # ============================================================
-# DTW-based Clustering (Time-Series Tensor)
+# ✅ STEP 5 — SUMMARY OF RESULTS
 # ============================================================
+print("\n📊 Clustering Summary:")
+for name, labels in {**feature_results, **tensor_results}.items():
+    print(f"{name:20s} → clusters = {len(np.unique(labels))}")
 
-def run_dtw_kmeans(X_tensor, n_clusters=6, metric="dtw", random_state=42):
-    """
-    Dynamic Time Warping-based K-Means using tslearn.
-    Works on 3D tensors: (n_samples, time_steps, variables)
-    """
-    from tslearn.clustering import TimeSeriesKMeans
-    model = TimeSeriesKMeans(n_clusters=n_clusters, metric=metric, random_state=random_state)
-    return model.fit_predict(X_tensor)
-
-
-def run_kshape(X_tensor, n_clusters=6, random_state=42):
-    """Shape-based clustering for time-series (tslearn)."""
-    from tslearn.clustering import KShape
-    model = KShape(n_clusters=n_clusters, random_state=random_state)
-    return model.fit_predict(X_tensor)
-
-
-# ============================================================
-# Wrapper for Multi-Method Comparison
-# ============================================================
-
-def run_all_clustering_methods(X_features, X_tensor=None, n_clusters=6):
-    """
-    Run multiple clustering algorithms and return results in a dictionary.
-    X_features: 2D statistical features (347×54)
-    X_tensor: 3D tensor (347×128×9) for time-series methods (optional)
-    """
-    print(" Running multiple clustering algorithms...")
-
-    # Normalize features
-    X = normalize_features(X_features)
-    results = {}
-
-    # Feature-space clustering
-    results["KMeans"] = run_kmeans(X, n_clusters)
-    results["MiniBatchKMeans"] = run_minibatch_kmeans(X, n_clusters)
-    results["Hierarchical"] = run_hierarchical(X, n_clusters)
-    results["GMM"] = run_gmm(X, n_clusters)
-    results["Spectral"] = run_spectral(X, n_clusters)
-    results["Birch"] = run_birch(X, n_clusters)
-    results["Affinity"] = run_affinity(X)
-    results["DBSCAN"] = run_dbscan(X)
-    try:
-        results["HDBSCAN"] = run_hdbscan(X)
-    except Exception as e:
-        print("⚠️ HDBSCAN failed:", e)
-    try:
-        results["SOM"] = run_som(X)
-    except Exception as e:
-        print("⚠️ SOM failed:", e)
-    try:
-        if X_tensor is not None:
-            results["DTW_KMeans"] = run_dtw_kmeans(X_tensor, n_clusters)
-            results["KShape"] = run_kshape(X_tensor, n_clusters)
-    except Exception as e:
-        print("⚠️ Time-series clustering failed:", e)
-
-    print(f"✅ {len(results)} clustering results obtained.")
-    return results
-
-
-# ============================================================
-#  Run as standalone script
-# ============================================================
-if __name__ == "__main__":
-    import os
-
-    # Load saved features and labels
-    PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    FEATURES_PATH = os.path.join(PROJECT_ROOT, "notebooks", "features.npy")
-    LABELS_PATH = os.path.join(PROJECT_ROOT, "notebooks", "labels.npy")
-    DATA_PATH = os.path.join(PROJECT_ROOT, "data")
-
-    X_features = np.load(FEATURES_PATH)
-    y_true = np.load(LABELS_PATH)
-
-    # Optional: load tensor if needed for DTW / KShape
-    try:
-        from preprocessing import load_sensor_files
-        X_tensor, _ = load_sensor_files(DATA_PATH)
-    except Exception:
-        X_tensor = None
-
-    # Run all methods
-    all_results = run_all_clustering_methods(X_features, X_tensor, n_clusters=6)
-
-    # Print cluster label shapes
-    for name, labels in all_results.items():
-        print(f"{name:20s} → clusters found: {len(np.unique(labels))}")
+print("\n🏁 Execution complete — both approaches ran successfully.")
